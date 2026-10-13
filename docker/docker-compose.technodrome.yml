@@ -1,0 +1,123 @@
+version: "3.8"
+
+# ==============================================================================
+# Technodrome Consolidated Production Docker Compose Stack
+# Host: UGREEN DXP4800 Plus (192.168.68.79)
+# Volumes stored on: /volume1/docker/
+# ==============================================================================
+
+services:
+  # ----------------------------------------------------------------------------
+  # Cloudflare Zero Trust Tunnel Ingress
+  # ----------------------------------------------------------------------------
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    restart: unless-stopped
+    network_mode: host
+    command: tunnel run --token ${TUNNEL_TOKEN}
+    environment:
+      - TUNNEL_METRICS=0.0.0.0:2000
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ----------------------------------------------------------------------------
+  # Home Assistant Core
+  # ----------------------------------------------------------------------------
+  homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:stable
+    container_name: homeassistant
+    restart: unless-stopped
+    network_mode: host
+    privileged: true
+    volumes:
+      - /volume1/docker/homeassistant/config:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+    environment:
+      - TZ=America/New_York
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "5"
+
+  # ----------------------------------------------------------------------------
+  # Pi-hole DNS & Ad-Blocker
+  # ----------------------------------------------------------------------------
+  pihole:
+    image: pihole/pihole:latest
+    container_name: pihole
+    restart: unless-stopped
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "80:80/tcp"
+    environment:
+      - TZ=America/New_York
+      - WEBPASSWORD=${PIHOLE_PASSWORD}
+      - FTLCONF_LOCAL_IPV4=192.168.68.79
+      - PIHOLE_DNS_=1.1.1.1;1.0.0.1
+    volumes:
+      - /volume1/docker/pihole/etc-pihole:/etc/pihole
+      - /volume1/docker/pihole/etc-dnsmasq.d:/etc/dnsmasq.d
+    cap_add:
+      - NET_ADMIN
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ----------------------------------------------------------------------------
+  # Plex Media Server (Intel Hardware Transcoding)
+  # ----------------------------------------------------------------------------
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+      - VERSION=docker
+      - PLEX_CLAIM=${PLEX_CLAIM_TOKEN}
+    volumes:
+      - /volume1/docker/plex/config:/config
+      - /volume1/media/movies:/movies:ro
+      - /volume1/media/tv:/tv:ro
+      - /volume1/media/music:/music:ro
+    devices:
+      - /dev/dri:/dev/dri
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "3"
+
+  # ----------------------------------------------------------------------------
+  # Eufy Security WebSocket Bridge
+  # ----------------------------------------------------------------------------
+  eufy-security-ws:
+    image: bropat/eufy-security-ws:latest
+    container_name: eufy-security-ws
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - USERNAME=${EUFY_USERNAME}
+      - PASSWORD=${EUFY_PASSWORD}
+      - COUNTRY=US
+      - LANGUAGE=en
+      - TRUSTED_DEVICE_NAME=Technodrome
+    volumes:
+      - /volume1/docker/eufy-security-ws/data:/data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

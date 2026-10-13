@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Motionblinds Battery & Room Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg: #09090b;
+      --card: #18181b;
+      --border: #27272a;
+      --fg: #fafafa;
+      --muted: #a1a1aa;
+    }
+  </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 antialiased p-4 sm:p-8 min-h-screen">
+
+  <div class="max-w-6xl mx-auto space-y-6">
+
+    <!-- Header & Summary Cards -->
+    <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-zinc-800">
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-bold tracking-tight flex items-center gap-2">
+          <span>🪟</span> Motionblinds Battery Dashboard
+        </h1>
+        <p class="text-zinc-400 text-sm mt-1">
+          Complete inventory across Floor 1 & Floor 2 • Home Assistant Connected
+        </p>
+      </div>
+
+      <!-- Quick KPI Stats -->
+      <div class="flex items-center gap-3">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2.5 shadow-sm text-center">
+          <div class="text-xs font-medium text-zinc-400 uppercase tracking-wider">Total Blinds</div>
+          <div class="text-xl font-bold text-zinc-100 mt-0.5">19</div>
+        </div>
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2.5 shadow-sm text-center">
+          <div class="text-xs font-medium text-zinc-400 uppercase tracking-wider">Avg Battery</div>
+          <div class="text-xl font-bold text-emerald-400 mt-0.5">50%</div>
+        </div>
+        <div class="bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2.5 shadow-sm text-center">
+          <div class="text-xs font-medium text-zinc-400 uppercase tracking-wider">&lt; 10% Alert</div>
+          <div class="text-xl font-bold text-emerald-400 mt-0.5">0</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Filters & Search -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-zinc-900 border border-zinc-800 p-3 rounded-xl shadow-sm">
+      <div class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0" id="filter-tabs">
+        <button onclick="setFilter('all')" id="tab-all" class="filter-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 text-white transition-all">
+          All (19)
+        </button>
+        <button onclick="setFilter('Floor 1')" id="tab-floor1" class="filter-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-zinc-950 text-zinc-400 hover:text-zinc-200 border border-zinc-800 transition-all">
+          Floor 1 (10)
+        </button>
+        <button onclick="setFilter('Floor 2')" id="tab-floor2" class="filter-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-zinc-950 text-zinc-400 hover:text-zinc-200 border border-zinc-800 transition-all">
+          Floor 2 (9)
+        </button>
+      </div>
+
+      <div class="relative w-full sm:w-64">
+        <input 
+          type="text" 
+          id="search-input" 
+          oninput="handleSearch()" 
+          placeholder="Search blind, room..." 
+          class="w-full bg-zinc-950 text-zinc-100 placeholder-zinc-500 text-xs border border-zinc-800 rounded-lg pl-8 pr-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+        />
+        <svg class="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Blinds Grid -->
+    <div id="blinds-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <!-- Injected by JavaScript -->
+    </div>
+
+  </div>
+
+  <script>
+    const blinds = [
+      { name: "Kitchen Blind", floor: "Floor 1", room: "Kitchen", entity: "cover.kitchen_blind", battery: 51, position: 20, state: "open" },
+      { name: "Dining Room Left", floor: "Floor 1", room: "Dining Room", entity: "cover.dining_room_left", battery: 50, position: 20, state: "open" },
+      { name: "Dining Room Right", floor: "Floor 1", room: "Dining Room", entity: "cover.dining_room_right", battery: 46, position: 20, state: "open" },
+      { name: "Fireplace Left", floor: "Floor 1", room: "Living Room", entity: "cover.fireplace_left", battery: 49, position: 20, state: "open" },
+      { name: "Fireplace Right", floor: "Floor 1", room: "Living Room", entity: "cover.fireplace_right", battery: 48, position: 0, state: "closed" },
+      { name: "Corner Left", floor: "Floor 1", room: "Living Room", entity: "cover.corner_left", battery: 47, position: 20, state: "open" },
+      { name: "Corner Right", floor: "Floor 1", room: "Living Room", entity: "cover.corner_right", battery: 48, position: 20, state: "open" },
+      { name: "Front Left", floor: "Floor 1", room: "Living Room", entity: "cover.front_left", battery: 53, position: 20, state: "open" },
+      { name: "Front Right", floor: "Floor 1", room: "Living Room", entity: "cover.front_right", battery: 47, position: 20, state: "open" },
+      { name: "Entry Way Blind", floor: "Floor 1", room: "Entry Way", entity: "cover.entry_way", battery: 50, position: 20, state: "open" },
+      { name: "Bed Left (Bryan)", floor: "Floor 2", room: "Bedroom", entity: "cover.bed_left", battery: 45, position: 100, state: "open" },
+      { name: "Bed Right (Amanda)", floor: "Floor 2", room: "Bedroom", entity: "cover.bed_right", battery: 60, position: 100, state: "open" },
+      { name: "Bedroom Front Left", floor: "Floor 2", room: "Bedroom", entity: "cover.bedroom_front_left", battery: 59, position: 100, state: "open" },
+      { name: "Bedroom Front Center", floor: "Floor 2", room: "Bedroom", entity: "cover.bedroom_front_center", battery: 64, position: 100, state: "open" },
+      { name: "Bedroom Front Right", floor: "Floor 2", room: "Bedroom", entity: "cover.bedroom_front_right", battery: 63, position: 100, state: "open" },
+      { name: "Amanda's Closet", floor: "Floor 2", room: "Amanda's Closet", entity: "cover.amanda_s_closet", battery: 40, position: 100, state: "open" },
+      { name: "Guest Room Left", floor: "Floor 2", room: "Guest Room", entity: "cover.guest_room_left", battery: 43, position: 100, state: "open" },
+      { name: "Guest Room Right", floor: "Floor 2", room: "Guest Room", entity: "cover.guest_room_right", battery: 47, position: 100, state: "open" },
+      { name: "Bathroom", floor: "Floor 2", room: "Bathroom", entity: "cover.bathroom", battery: 47, position: 100, state: "open" }
+    ];
+
+    let currentFilter = 'all';
+    let searchQuery = '';
+
+    function getBatteryColor(pct) {
+      if (pct <= 15) return { bg: 'bg-rose-500', text: 'text-rose-400', bar: 'bg-rose-500' };
+      if (pct <= 30) return { bg: 'bg-amber-500', text: 'text-amber-400', bar: 'bg-amber-500' };
+      return { bg: 'bg-emerald-500', text: 'text-emerald-400', bar: 'bg-emerald-500' };
+    }
+
+    function renderBlinds() {
+      const container = document.getElementById('blinds-container');
+      const filtered = blinds.filter(b => {
+        const matchesFilter = currentFilter === 'all' || b.floor === currentFilter;
+        const matchesSearch = b.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                              b.room.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                              b.floor.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesFilter && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full py-12 text-center text-zinc-500">
+            <p class="text-sm">No blinds match your current filter or search query.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(b => {
+        const colors = getBatteryColor(b.battery);
+        const isOpen = b.state === 'open';
+
+        return `
+          <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-4 shadow-sm hover:border-zinc-700 transition-all">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <h3 class="font-semibold text-sm text-zinc-100">${b.name}</h3>
+                <div class="flex items-center gap-1.5 mt-1">
+                  <span class="text-xs px-2 py-0.5 rounded-md bg-zinc-950 text-zinc-400 border border-zinc-800 font-medium">
+                    ${b.room}
+                  </span>
+                  <span class="text-xs px-2 py-0.5 rounded-md bg-zinc-950 text-zinc-400 border border-zinc-800">
+                    ${b.floor}
+                  </span>
+                </div>
+              </div>
+              <span class="text-xs px-2 py-0.5 rounded-full font-medium ${isOpen ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-zinc-800 text-zinc-400'}">
+                ${isOpen ? `${b.position}% Open` : 'Closed'}
+              </span>
+            </div>
+
+            <!-- Battery Gauge -->
+            <div class="mt-4 pt-3 border-t border-zinc-800">
+              <div class="flex items-center justify-between text-xs mb-1.5">
+                <span class="text-zinc-400 flex items-center gap-1">
+                  <span>🔋</span> Battery Charge
+                </span>
+                <span class="font-bold ${colors.text}">${b.battery}%</span>
+              </div>
+              <div class="w-full h-2 bg-zinc-950 rounded-full overflow-hidden border border-zinc-800">
+                <div class="h-full ${colors.bar} rounded-full transition-all duration-500" style="width: ${b.battery}%"></div>
+              </div>
+            </div>
+
+            <div class="mt-2.5 text-[11px] text-zinc-500 font-mono truncate">
+              ${b.entity}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function setFilter(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.className = "filter-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-zinc-950 text-zinc-400 hover:text-zinc-200 border border-zinc-800 transition-all";
+      });
+      const activeId = filter === 'all' ? 'tab-all' : (filter === 'Floor 1' ? 'tab-floor1' : 'tab-floor2');
+      document.getElementById(activeId).className = "filter-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 text-white transition-all";
+      renderBlinds();
+    }
+
+    function handleSearch() {
+      searchQuery = document.getElementById('search-input').value;
+      renderBlinds();
+    }
+
+    renderBlinds();
+  </script>
+</body>
+</html>
