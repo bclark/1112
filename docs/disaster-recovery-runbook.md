@@ -38,7 +38,8 @@ Before beginning, ensure you have:
 1. **UGOS Pro Initialization**:
    * Complete initial UGREEN setup wizard.
    * Primary user: `bclark`.
-   * Create Btrfs Storage Pool on `/volume1`.
+   * Create NVMe Storage Pool on `/volume1` (fast storage for OS, databases, and Docker container configs).
+   * Create RAID 1 Storage Pool on `/volume2` (high-capacity dual-drive mirror for media assets: movies, music, TV).
    * Enable SSH: Control Panel > Terminal & SNMP > Enable SSH service (Port 22).
 
 2. **Provision Directory Hierarchy**:
@@ -49,9 +50,10 @@ Before beginning, ensure you have:
 
    Run the directory provisioning script:
    ```bash
-   sudo mkdir -p /volume1/docker/{cloudflared,homeassistant/config,pihole/etc-pihole,pihole/etc-dnsmasq.d,plex/config,eufy-security-ws/data,matter-server/data}
-   sudo mkdir -p /volume1/media/{movies,tv,music}
-   sudo chown -R bclark:bclark /volume1/docker
+   sudo mkdir -p /volume1/docker/{cloudflared,homeassistant/config,pihole/etc-pihole,pihole/etc-dnsmasq.d,plex/{config,transcode},eufy-security-ws/data,matter-server/data}
+   sudo mkdir -p /volume2/media/{movies,tv,music}
+   sudo chown -R bclark:bclark /volume1/docker /volume2/media
+   sudo chmod -R 775 /volume2/media
    ```
 
 ---

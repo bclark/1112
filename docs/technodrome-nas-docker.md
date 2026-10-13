@@ -12,49 +12,52 @@ This document details the server architecture, filesystem directory structure, a
 | **Operating System** | UGOS Pro (Debian Linux kernel 6.x) |
 | **Primary IP** | `192.168.68.79` (Static DHCP reservation) |
 | **Networking** | Dual 2.5 GbE Intel Ethernet ports (eth0, eth1) |
-| **Storage Architecture** | Multi-bay Btrfs storage pool on `/volume1` |
+| **Storage Architecture** | Dual storage pools: NVMe pool on `/volume1` (system & Docker configs); 7.3 TB HDD RAID 1 pool on `/volume2` (Bulk media: movies, music, TV) |
 | **Hardware Transcoding** | Intel UHD Graphics (`/dev/dri` passed to Plex) |
 | **SSH Management** | `ssh bclark@192.168.68.79` (Default port 22; toggled in UGOS Control Panel) |
 
 ---
 
-## 2. Directory Structure on `/volume1`
+## 2. Directory Structure across Volumes
 
-All Docker persistent configurations are strictly isolated under `/volume1/docker/` to ensure full portability and simplified snapshot backups:
+Docker application configurations and databases remain on the ultra-fast NVMe storage (`/volume1/docker/`), while large media assets reside on the fault-tolerant RAID 1 HDD pool (`/volume2/media/`):
 
 ```text
-/volume1/
-├── docker/
-│   ├── cloudflared/
-│   │   └── docker-compose.yaml
-│   ├── homeassistant/
-│   │   ├── config/
-│   │   │   ├── configuration.yaml
-│   │   │   ├── automations.yaml
-│   │   │   ├── scripts.yaml
-│   │   │   ├── scenes.yaml
-│   │   │   └── .storage/
-│   │   └── docker-compose.yaml
-│   ├── pihole/
-│   │   ├── etc-pihole/
-│   │   ├── etc-dnsmasq.d/
-│   │   └── docker-compose.yaml
-│   ├── plex/
-│   │   ├── config/
-│   │   └── docker-compose.yaml
-│   ├── eufy-security-ws/
-│   │   ├── data/
-│   │   └── docker-compose.yaml
-│   ├── wyoming/
-│   │   ├── piper/
-│   │   ├── whisper/
-│   │   └── openwakeword/
-│   └── matter-server/
-│       └── data/
+/volume1/ (NVMe SSD - System & Docker Services)
+└── docker/
+    ├── cloudflared/
+    │   └── docker-compose.yaml
+    ├── homeassistant/
+    │   ├── config/
+    │   │   ├── configuration.yaml
+    │   │   ├── automations.yaml
+    │   │   ├── scripts.yaml
+    │   │   ├── scenes.yaml
+    │   │   └── .storage/
+    │   └── docker-compose.yaml
+    ├── pihole/
+    │   ├── etc-pihole/
+    │   ├── etc-dnsmasq.d/
+    │   └── docker-compose.yaml
+    ├── plex/
+    │   ├── config/
+    │   ├── transcode/
+    │   └── docker-compose.yaml
+    ├── eufy-security-ws/
+    │   ├── data/
+    │   └── docker-compose.yaml
+    ├── wyoming/
+    │   ├── piper/
+    │   ├── whisper/
+    │   └── openwakeword/
+    └── matter-server/
+        └── data/
+
+/volume2/ (7.3 TB HDD RAID 1 - Media Libraries)
 └── media/
     ├── movies/
-    ├── tv/
-    └── music/
+    ├── music/
+    └── tv/
 ```
 
 ---
@@ -146,27 +149,24 @@ services:
 **Path**: `/volume1/docker/plex/docker-compose.yaml`
 
 ```yaml
-version: "3.8"
-
 services:
   plex:
-    image: lscr.io/linuxserver/plex:latest
+    image: plexinc/pms-docker:latest
     container_name: plex
-    restart: unless-stopped
     network_mode: host
     environment:
-      - PUID=1000
-      - PGID=1000
       - TZ=America/New_York
-      - VERSION=docker
       - PLEX_CLAIM=${PLEX_CLAIM_TOKEN}
-    volumes:
-      - /volume1/docker/plex/config:/config
-      - /volume1/media/movies:/movies:ro
-      - /volume1/media/tv:/tv:ro
-      - /volume1/media/music:/music:ro
+      - PLEX_UID=0
+      - PLEX_GID=0
     devices:
       - /dev/dri:/dev/dri
+    volumes:
+      - /volume1/docker/plex/config:/config
+      - /volume1/docker/plex/transcode:/transcode
+      - /volume2/media/movies:/movies
+      - /volume2/media/music:/music
+    restart: unless-stopped
 ```
 
 ---
