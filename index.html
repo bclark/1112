@@ -6,17 +6,6 @@
   <title>Technodrome Media Vault & 2026 Wrapped</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
-    @keyframes wave {
-      0%, 100% { height: 6px; }
-      50% { height: 22px; }
-    }
-    .wave-bar {
-      animation: wave 1.2s ease-in-out infinite;
-    }
-    .wave-bar:nth-child(2) { animation-delay: 0.2s; }
-    .wave-bar:nth-child(3) { animation-delay: 0.4s; }
-    .wave-bar:nth-child(4) { animation-delay: 0.1s; }
-    .wave-bar:nth-child(5) { animation-delay: 0.3s; }
     .glass-panel {
       background: rgba(18, 24, 38, 0.75);
       backdrop-filter: blur(16px);
@@ -41,7 +30,7 @@
     ::-webkit-scrollbar-thumb:hover { background: #374151; }
   </style>
 </head>
-<body class="bg-[#0a0d14] text-gray-100 min-h-screen font-sans selection:bg-[#e5a00d] selection:text-black pb-28">
+<body class="bg-[#0a0d14] text-gray-100 min-h-screen font-sans selection:bg-[#e5a00d] selection:text-black pb-12">
 
   <!-- TOP NAVIGATION / BRANDING -->
   <header class="sticky top-0 z-40 glass-panel border-b border-gray-800/80 px-4 md:px-8 py-3.5">
@@ -61,19 +50,15 @@
               Online
             </span>
           </div>
-          <p class="text-xs text-gray-400 flex items-center gap-2">
-            <span>Plex Media Server v1.43.4</span>
-            <span>•</span>
-            <span class="text-gray-300">Linux 6.18.15</span>
-            <span>•</span>
-            <span class="text-amber-400 font-mono text-[11px]">Direct Stream Ready</span>
+          <p class="text-xs text-gray-400">
+            <span>Curated Media Archives & Analytics</span>
           </p>
         </div>
       </div>
 
       <!-- Quick Search & Actions -->
       <div class="flex items-center gap-3 w-full md:w-auto">
-        <div class="relative flex-1 md:w-72">
+        <div class="relative flex-1 md:w-80">
           <svg class="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
@@ -85,14 +70,6 @@
         <!-- WRAPPED 2026 BUTTON -->
         <button onclick="openWrappedModal()" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 hover:opacity-95 text-white text-xs font-bold flex items-center gap-1.5 shadow-lg shadow-purple-500/25 transition">
           <span>✨ 2026 Wrapped</span>
-        </button>
-
-        <button onclick="openServerModal()" class="px-3 py-2 rounded-xl bg-gray-800/80 hover:bg-gray-700/80 text-gray-200 text-xs font-medium flex items-center gap-1.5 border border-gray-700 transition">
-          <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-          </svg>
-          <span class="hidden sm:inline">Server</span>
         </button>
       </div>
 
@@ -161,12 +138,12 @@
 
       <div class="glass-panel p-4 rounded-2xl border border-gray-800/80 flex items-center justify-between">
         <div>
-          <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Remote Access</p>
-          <h3 class="text-2xl font-bold text-white mt-1">Mapped <span class="text-xs font-normal text-emerald-400">● 32400</span></h3>
-          <p class="text-[11px] text-gray-400 mt-0.5">Direct Streaming Active</p>
+          <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Collection Scope</p>
+          <h3 class="text-2xl font-bold text-white mt-1">1977 – 2024</h3>
+          <p class="text-[11px] text-purple-400 mt-0.5">Classic to Modern Punk & Metal</p>
         </div>
         <div class="w-11 h-11 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/></svg>
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
         </div>
       </div>
     </section>
@@ -212,9 +189,7 @@
         </div>
 
         <!-- Monthly Highlights Cards -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="monthlyHighlightsGrid">
-          <!-- Injected via JS -->
-        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="monthlyHighlightsGrid"></div>
 
         <!-- Top Tracks Table & Device Breakdown -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-2">
@@ -235,12 +210,10 @@
                     <th class="px-4 py-3">Rank & Track</th>
                     <th class="px-4 py-3">Artist</th>
                     <th class="px-4 py-3 text-center">Plays</th>
-                    <th class="px-4 py-3 text-right">Preview</th>
+                    <th class="px-4 py-3 text-right">Duration</th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-800/60 text-gray-300 text-xs" id="monthlyTracksBody">
-                  <!-- Injected via JS -->
-                </tbody>
+                <tbody class="divide-y divide-gray-800/60 text-gray-300 text-xs" id="monthlyTracksBody"></tbody>
               </table>
             </div>
           </div>
@@ -250,9 +223,7 @@
             <h4 class="text-sm font-bold text-white uppercase tracking-wider">
               🎧 Listening By Client
             </h4>
-            <div class="rounded-2xl border border-gray-800 p-4 bg-gray-900/60 space-y-3" id="deviceBreakdown">
-              <!-- Injected via JS -->
-            </div>
+            <div class="rounded-2xl border border-gray-800 p-4 bg-gray-900/60 space-y-3" id="deviceBreakdown"></div>
           </div>
 
         </div>
@@ -289,7 +260,7 @@
       <div class="flex items-center justify-between">
         <h3 class="text-xl font-bold text-white flex items-center gap-2">
           <span>📻 Recent Playback Activity</span>
-          <span class="text-xs font-normal text-cyan-400 px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-800/60">Plexamp Android Logs</span>
+          <span class="text-xs font-normal text-cyan-400 px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-800/60">Playback Logs</span>
         </h3>
       </div>
 
@@ -301,8 +272,8 @@
                 <th class="px-5 py-3.5">Track / Title</th>
                 <th class="px-5 py-3.5">Artist & Album</th>
                 <th class="px-5 py-3.5">Time</th>
-                <th class="px-5 py-3.5">Client & Mode</th>
-                <th class="px-5 py-3.5 text-right">Actions</th>
+                <th class="px-5 py-3.5">Client</th>
+                <th class="px-5 py-3.5 text-right">Format</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-800/60 text-gray-300 text-xs sm:text-sm" id="historyTableBody"></tbody>
@@ -318,17 +289,13 @@
     <div class="w-full max-w-xl aspect-[9/16] max-h-[92vh] rounded-3xl overflow-hidden shadow-2xl relative flex flex-col border border-purple-500/40 text-white select-none" id="wrappedContainer">
       
       <!-- Progress Bar Segment Indicators -->
-      <div class="absolute top-4 inset-x-4 z-30 flex items-center gap-1.5" id="wrappedProgressBar">
-        <!-- Injected via JS -->
-      </div>
+      <div class="absolute top-4 inset-x-4 z-30 flex items-center gap-1.5" id="wrappedProgressBar"></div>
 
       <!-- Close button -->
       <button onclick="closeModal('wrappedModal')" class="absolute top-8 right-5 z-30 w-8 h-8 rounded-full bg-black/50 text-gray-300 hover:text-white flex items-center justify-center backdrop-blur border border-white/20">✕</button>
 
       <!-- Wrapped Slide Views -->
-      <div id="wrappedSlideContent" class="flex-1 p-6 md:p-8 flex flex-col justify-between relative overflow-hidden transition-all duration-500">
-        <!-- Rendered via JS -->
-      </div>
+      <div id="wrappedSlideContent" class="flex-1 p-6 md:p-8 flex flex-col justify-between relative overflow-hidden transition-all duration-500"></div>
 
       <!-- Left / Right Tap Zones -->
       <div class="absolute inset-y-16 left-0 w-1/3 z-20 cursor-pointer" onclick="prevWrappedSlide()"></div>
@@ -357,100 +324,6 @@
     <div class="bg-[#121724] border border-gray-700/80 rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl relative max-h-[90vh] flex flex-col">
       <button onclick="closeModal('albumModal')" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-black/60 text-gray-300 hover:text-white flex items-center justify-center border border-gray-700">✕</button>
       <div id="albumModalContent" class="overflow-y-auto p-6 md:p-8 space-y-5"></div>
-    </div>
-  </div>
-
-  <!-- MODAL: SERVER HEALTH & SPECS -->
-  <div id="serverModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden">
-    <div class="bg-[#121724] border border-gray-700/80 rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl relative p-6 md:p-8 space-y-5">
-      <button onclick="closeModal('serverModal')" class="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-gray-800 text-gray-300 hover:text-white flex items-center justify-center">✕</button>
-      
-      <div class="flex items-center gap-3">
-        <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
-          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/></svg>
-        </div>
-        <div>
-          <h3 class="text-xl font-bold text-white">Technodrome Server Node</h3>
-          <p class="text-xs text-gray-400">Plex Media Server Enterprise Core</p>
-        </div>
-      </div>
-
-      <div class="space-y-3 text-xs bg-gray-900/80 rounded-2xl p-4 border border-gray-800">
-        <div class="flex justify-between py-1.5 border-b border-gray-800">
-          <span class="text-gray-400">Platform:</span>
-          <span class="text-white font-mono">Linux 6.18.15</span>
-        </div>
-        <div class="flex justify-between py-1.5 border-b border-gray-800">
-          <span class="text-gray-400">Plex Build:</span>
-          <span class="text-amber-400 font-mono">1.43.4.10903</span>
-        </div>
-        <div class="flex justify-between py-1.5 border-b border-gray-800">
-          <span class="text-gray-400">Remote Access Port:</span>
-          <span class="text-emerald-400 font-mono">32400 (TCP Mapped)</span>
-        </div>
-        <div class="flex justify-between py-1.5 border-b border-gray-800">
-          <span class="text-gray-400">Active Account:</span>
-          <span class="text-white font-mono">bclark108@gmail.com</span>
-        </div>
-        <div class="flex justify-between py-1.5 border-b border-gray-800">
-          <span class="text-gray-400">Hardware Transcoder:</span>
-          <span class="text-white">Active (HEVC/H.264)</span>
-        </div>
-        <div class="flex justify-between py-1.5">
-          <span class="text-gray-400">Storage Locations:</span>
-          <span class="text-cyan-400 font-mono">/movies, /music</span>
-        </div>
-      </div>
-
-      <div class="p-3 rounded-xl bg-purple-950/40 border border-purple-800/40 text-purple-300 text-xs flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-purple-400"></span>
-        <span>Wrapped 2026 freeze scheduled for December 20, 2026.</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- FLOATING MINI AUDIO PLAYER -->
-  <div id="playerBar" class="fixed bottom-3 inset-x-3 md:inset-x-8 max-w-4xl mx-auto z-40 glass-panel border border-amber-500/30 rounded-2xl p-3 px-4 shadow-2xl flex items-center justify-between gap-4 transition-all duration-300">
-    <div class="flex items-center gap-3 min-w-0">
-      <div class="w-12 h-12 rounded-xl bg-gray-800 overflow-hidden relative flex-shrink-0 border border-gray-700">
-        <img id="playerCover" alt="Art" class="w-full h-full object-cover">
-      </div>
-      <div class="min-w-0">
-        <div class="flex items-center gap-2">
-          <h4 id="playerTitle" class="text-sm font-bold text-white truncate">From the Pinnacle to the Pit</h4>
-          <span class="px-1.5 py-0.5 rounded text-[10px] bg-emerald-950 text-emerald-400 border border-emerald-800 font-mono">FLAC</span>
-        </div>
-        <p id="playerSubtitle" class="text-xs text-gray-400 truncate">Ghost • Meliora</p>
-      </div>
-    </div>
-
-    <!-- Center playback controls -->
-    <div class="flex flex-col items-center gap-1">
-      <div class="flex items-center gap-3">
-        <button onclick="prevTrack()" class="text-gray-400 hover:text-white transition p-1">
-          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
-        </button>
-        <button id="playBtn" onclick="togglePlay()" class="w-9 h-9 rounded-full bg-amber-500 hover:bg-amber-400 text-black flex items-center justify-center transition shadow-lg shadow-amber-500/30">
-          <svg id="playIcon" class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-          <svg id="pauseIcon" class="w-5 h-5 fill-current hidden" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-        </button>
-        <button onclick="nextTrack()" class="text-gray-400 hover:text-white transition p-1">
-          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
-        </button>
-      </div>
-      <div id="equalizerWave" class="flex items-center gap-1 h-3 opacity-40">
-        <span class="w-1 bg-amber-400 rounded-full wave-bar"></span>
-        <span class="w-1 bg-amber-400 rounded-full wave-bar"></span>
-        <span class="w-1 bg-amber-400 rounded-full wave-bar"></span>
-        <span class="w-1 bg-amber-400 rounded-full wave-bar"></span>
-        <span class="w-1 bg-amber-400 rounded-full wave-bar"></span>
-      </div>
-    </div>
-
-    <!-- Right time indicator -->
-    <div class="hidden sm:flex items-center gap-3 text-xs text-gray-400 font-mono">
-      <span id="playerTimer">01:48</span> / <span>04:02</span>
-      <span class="text-emerald-400 text-[11px] font-sans">1039 kbps</span>
     </div>
   </div>
 
@@ -789,17 +662,17 @@ const IMG = {"Blade_poster.jpg": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASAB
     ];
 
     const historyData = [
-      { time: "Oct 11, 5:30 PM", title: "Funky Shit", artist: "The Prodigy", album: "The Fat of the Land", client: "Android (Plexamp)", mode: "Direct Stream" },
-      { time: "Oct 11, 5:25 PM", title: "Diesel Power", artist: "The Prodigy", album: "The Fat of the Land", client: "Android (Plexamp)", mode: "Direct Stream" },
-      { time: "Oct 11, 5:19 PM", title: "Deus in Absentia", artist: "Ghost", album: "Meliora", client: "Android (Plexamp)", mode: "Direct Stream" },
-      { time: "Oct 11, 5:11 PM", title: "Absolution", artist: "Ghost", album: "Meliora", client: "Android (Plexamp)", mode: "Direct Stream" },
-      { time: "Oct 11, 5:08 PM", title: "Devil Church", artist: "Ghost", album: "Meliora", client: "Android (Plexamp)", mode: "Direct Stream" },
-      { time: "Oct 11, 5:03 PM", title: "Majesty", artist: "Ghost", album: "Meliora", client: "Android (Plexamp)", mode: "Direct Stream" },
-      { time: "Oct 11, 4:59 PM", title: "Mummy Dust", artist: "Ghost", album: "Meliora", client: "Android (Plexamp)", mode: "Direct Stream" },
-      { time: "Oct 11, 4:56 PM", title: "He Is", artist: "Ghost", album: "Meliora", client: "Android (Plexamp)", mode: "Direct Stream" },
-      { time: "Oct 11, 4:53 PM", title: "Spöksonat", artist: "Ghost", album: "Meliora", client: "Android (Plexamp)", mode: "Direct Stream" },
-      { time: "Oct 11, 4:48 PM", title: "Cirice", artist: "Ghost", album: "Meliora", client: "Android (Plexamp)", mode: "Direct Stream" },
-      { time: "Oct 11, 4:43 PM", title: "From the Pinnacle to the Pit", artist: "Ghost", album: "Meliora", client: "Android (Plexamp)", mode: "Direct Stream" }
+      { time: "Oct 11, 5:30 PM", title: "Funky Shit", artist: "The Prodigy", album: "The Fat of the Land", client: "Android App", mode: "Lossless FLAC" },
+      { time: "Oct 11, 5:25 PM", title: "Diesel Power", artist: "The Prodigy", album: "The Fat of the Land", client: "Android App", mode: "Lossless FLAC" },
+      { time: "Oct 11, 5:19 PM", title: "Deus in Absentia", artist: "Ghost", album: "Meliora", client: "Android App", mode: "Lossless FLAC" },
+      { time: "Oct 11, 5:11 PM", title: "Absolution", artist: "Ghost", album: "Meliora", client: "Android App", mode: "Lossless FLAC" },
+      { time: "Oct 11, 5:08 PM", title: "Devil Church", artist: "Ghost", album: "Meliora", client: "Android App", mode: "Lossless FLAC" },
+      { time: "Oct 11, 5:03 PM", title: "Majesty", artist: "Ghost", album: "Meliora", client: "Android App", mode: "Lossless FLAC" },
+      { time: "Oct 11, 4:59 PM", title: "Mummy Dust", artist: "Ghost", album: "Meliora", client: "Android App", mode: "Lossless FLAC" },
+      { time: "Oct 11, 4:56 PM", title: "He Is", artist: "Ghost", album: "Meliora", client: "Android App", mode: "Lossless FLAC" },
+      { time: "Oct 11, 4:53 PM", title: "Spöksonat", artist: "Ghost", album: "Meliora", client: "Android App", mode: "Lossless FLAC" },
+      { time: "Oct 11, 4:48 PM", title: "Cirice", artist: "Ghost", album: "Meliora", client: "Android App", mode: "Lossless FLAC" },
+      { time: "Oct 11, 4:43 PM", title: "From the Pinnacle to the Pit", artist: "Ghost", album: "Meliora", client: "Android App", mode: "Lossless FLAC" }
     ];
 
     // MONTHLY DATASETS
@@ -822,8 +695,8 @@ const IMG = {"Blade_poster.jpg": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASAB
         devices: [
           { name: "Lounge Ultra", percent: 58, duration: "47m 18s", count: 12 },
           { name: "Deck Speakers", percent: 19, duration: "15m 45s", count: 3 },
-          { name: "Firefox / Web", percent: 11, duration: "8m 48s", count: 2 },
-          { name: "Android (Plexamp)", percent: 12, duration: "5m 07s", count: 1 }
+          { name: "Web Player", percent: 11, duration: "8m 48s", count: 2 },
+          { name: "Mobile", percent: 12, duration: "5m 07s", count: 1 }
         ]
       },
       "2026-09": {
@@ -843,7 +716,7 @@ const IMG = {"Blade_poster.jpg": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASAB
         ],
         devices: [
           { name: "Lounge Ultra", percent: 65, duration: "1h 47m", count: 22 },
-          { name: "Android (Plexamp)", percent: 25, duration: "41m", count: 8 },
+          { name: "Mobile", percent: 25, duration: "41m", count: 8 },
           { name: "Deck Speakers", percent: 10, duration: "17m", count: 4 }
         ]
       },
@@ -865,7 +738,7 @@ const IMG = {"Blade_poster.jpg": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASAB
         devices: [
           { name: "Deck Speakers", percent: 45, duration: "1h 25m", count: 18 },
           { name: "Lounge Ultra", percent: 35, duration: "1h 05m", count: 14 },
-          { name: "Android (Plexamp)", percent: 20, duration: "40m", count: 10 }
+          { name: "Mobile", percent: 20, duration: "40m", count: 10 }
         ]
       }
     };
@@ -913,9 +786,9 @@ const IMG = {"Blade_poster.jpg": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASAB
                 <p class="text-[11px] text-amber-400">58% of all streams</p>
               </div>
               <div class="p-3 rounded-2xl bg-black/40 border border-white/10">
-                <p class="text-[10px] text-gray-400 uppercase">On the Move</p>
-                <p class="text-sm font-bold text-white mt-0.5">Android Plexamp</p>
-                <p class="text-[11px] text-emerald-400">Lossless Direct Play</p>
+                <p class="text-[10px] text-gray-400 uppercase">Sound Quality</p>
+                <p class="text-sm font-bold text-white mt-0.5">Audiophile Grade</p>
+                <p class="text-[11px] text-emerald-400">93% FLAC Lossless</p>
               </div>
             </div>
           </div>
@@ -1010,7 +883,7 @@ const IMG = {"Blade_poster.jpg": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASAB
             <div class="p-4 rounded-2xl bg-black/40 border border-white/10 max-w-xs mx-auto text-left space-y-2 text-xs">
               <div class="flex justify-between"><span class="text-gray-300">FLAC Library Size:</span><span class="text-emerald-400 font-bold font-mono">150 Tracks</span></div>
               <div class="flex justify-between"><span class="text-gray-300">Average Bitrate:</span><span class="text-white font-mono">1,039 kbps</span></div>
-              <div class="flex justify-between"><span class="text-gray-300">Transcode Bypasses:</span><span class="text-amber-400 font-bold">100% Direct Play</span></div>
+              <div class="flex justify-between"><span class="text-gray-300">Encoding Format:</span><span class="text-amber-400 font-bold">Original Master</span></div>
             </div>
             <p class="text-xs text-purple-200 italic max-w-xs mx-auto">
               "You believe compression is a crime. 24-bit soundscapes and raw drum dynamics only."
@@ -1052,7 +925,6 @@ const IMG = {"Blade_poster.jpg": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASAB
 
     let currentFilter = 'all';
     let searchQuery = '';
-    let isPlaying = false;
     let currentWrappedIndex = 0;
 
     // RENDER FUNCTIONS
@@ -1085,12 +957,6 @@ const IMG = {"Blade_poster.jpg": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASAB
             <div class="absolute top-2.5 right-2.5">
               <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-black/70 text-gray-200 border border-gray-700">${movie.rating}</span>
             </div>
-
-            ${movie.inProgress ? `
-              <div class="absolute bottom-0 inset-x-0 h-1.5 bg-gray-800">
-                <div class="h-full bg-amber-500" style="width: ${movie.progress}%;"></div>
-              </div>
-            ` : ''}
           </div>
 
           <div class="p-4 flex-1 flex flex-col justify-between">
@@ -1140,12 +1006,6 @@ const IMG = {"Blade_poster.jpg": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASAB
                 ${album.format}
               </span>
             </div>
-
-            ${album.plays > 0 ? `
-              <div class="absolute bottom-2 left-2 bg-black/70 backdrop-blur rounded px-1.5 py-0.5 text-[10px] text-amber-300 border border-gray-700 flex items-center gap-1">
-                <span>▶ ${album.plays} plays</span>
-              </div>
-            ` : ''}
           </div>
 
           <div class="p-3.5 flex-1 flex flex-col justify-between">
@@ -1167,12 +1027,7 @@ const IMG = {"Blade_poster.jpg": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASAB
       const tbody = document.getElementById('historyTableBody');
       tbody.innerHTML = historyData.map(item => `
         <tr class="hover:bg-gray-800/30 transition">
-          <td class="px-5 py-3 font-medium text-white flex items-center gap-2">
-            <button onclick="playTrackPreview('${item.title}', '${item.artist}', '${item.album}', '')" class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 hover:bg-amber-500 hover:text-black flex items-center justify-center transition">
-              ▶
-            </button>
-            <span>${item.title}</span>
-          </td>
+          <td class="px-5 py-3 font-medium text-white">${item.title}</td>
           <td class="px-5 py-3">
             <span class="text-amber-300">${item.artist}</span>
             <span class="text-gray-500 text-xs block">${item.album}</span>
@@ -1233,11 +1088,7 @@ const IMG = {"Blade_poster.jpg": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASAB
           </td>
           <td class="px-4 py-3 text-amber-300 font-medium">${t.artist}</td>
           <td class="px-4 py-3 text-center font-mono font-bold text-white">${t.plays}</td>
-          <td class="px-4 py-3 text-right">
-            <button onclick="playTrackPreview('${t.title}', '${t.artist}', '${t.album}', '')" class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 hover:bg-amber-500 hover:text-black inline-flex items-center justify-center text-xs transition">
-              ▶
-            </button>
-          </td>
+          <td class="px-4 py-3 text-right font-mono text-gray-400">${t.duration}</td>
         </tr>
       `).join('');
 
@@ -1266,20 +1117,15 @@ const IMG = {"Blade_poster.jpg": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASAB
       const slide = wrappedSlides[currentWrappedIndex];
       const container = document.getElementById('wrappedContainer');
       
-      // Update background class
       container.className = `w-full max-w-xl aspect-[9/16] max-h-[92vh] rounded-3xl overflow-hidden shadow-2xl relative flex flex-col border border-purple-500/40 text-white select-none ${slide.bgClass}`;
 
-      // Update progress bar
       document.getElementById('wrappedProgressBar').innerHTML = wrappedSlides.map((_, idx) => `
         <div class="h-1 flex-1 rounded-full overflow-hidden bg-white/20">
           <div class="h-full bg-white transition-all duration-300" style="width: ${idx < currentWrappedIndex ? '100%' : (idx === currentWrappedIndex ? '100%' : '0%')}"></div>
         </div>
       `).join('');
 
-      // Slide counter
       document.getElementById('wrappedSlideCounter').innerText = `${currentWrappedIndex + 1} / ${wrappedSlides.length}`;
-
-      // Slide content
       document.getElementById('wrappedSlideContent').innerHTML = slide.render();
     }
 
@@ -1363,16 +1209,15 @@ const IMG = {"Blade_poster.jpg": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASAB
 
         <div class="space-y-2 pt-4 border-t border-gray-800">
           <h4 class="text-xs uppercase font-semibold text-gray-400 tracking-wider">Tracklist</h4>
-          <div class="divide-y divide-gray-800/60 max-h-60 overflow-y-auto pr-1">
+          <div class="divide-y divide-gray-800/60 max-h-64 overflow-y-auto pr-1">
             ${album.tracks ? album.tracks.map(t => `
-              <div class="py-2.5 px-3 flex items-center justify-between hover:bg-gray-800/50 rounded-xl transition cursor-pointer group" onclick="playTrackPreview('${t.title}', '${album.artist}', '${album.title}', '${album.poster}')">
+              <div class="py-2.5 px-3 flex items-center justify-between hover:bg-gray-800/50 rounded-xl transition">
                 <div class="flex items-center gap-3">
                   <span class="text-xs font-mono text-gray-500 w-5">${t.num}</span>
-                  <span class="text-sm font-medium text-gray-200 group-hover:text-amber-400 transition-colors">${t.title}</span>
+                  <span class="text-sm font-medium text-gray-200">${t.title}</span>
                 </div>
                 <div class="flex items-center gap-3">
                   <span class="text-xs font-mono text-gray-400">${t.duration}</span>
-                  <button class="w-6 h-6 rounded-full bg-amber-500/10 text-amber-400 group-hover:bg-amber-500 group-hover:text-black flex items-center justify-center text-xs transition">▶</button>
                 </div>
               </div>
             `).join('') : '<p class="text-xs text-gray-500">Tracklist available on client.</p>'}
@@ -1382,49 +1227,8 @@ const IMG = {"Blade_poster.jpg": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASAB
       document.getElementById('albumModal').classList.remove('hidden');
     }
 
-    function openServerModal() {
-      document.getElementById('serverModal').classList.remove('hidden');
-    }
-
     function closeModal(id) {
       document.getElementById(id).classList.add('hidden');
-    }
-
-    // AUDIO PLAYER LOGIC
-    function playTrackPreview(title, artist, album, poster) {
-      document.getElementById('playerTitle').innerText = title;
-      document.getElementById('playerSubtitle').innerText = `${artist} • ${album}`;
-      if (poster) {
-        document.getElementById('playerCover').src = poster;
-      }
-      isPlaying = true;
-      document.getElementById('playIcon').classList.add('hidden');
-      document.getElementById('pauseIcon').classList.remove('hidden');
-      document.getElementById('equalizerWave').classList.remove('opacity-40');
-      document.getElementById('equalizerWave').classList.add('opacity-100');
-    }
-
-    function togglePlay() {
-      isPlaying = !isPlaying;
-      if (isPlaying) {
-        document.getElementById('playIcon').classList.add('hidden');
-        document.getElementById('pauseIcon').classList.remove('hidden');
-        document.getElementById('equalizerWave').classList.remove('opacity-40');
-        document.getElementById('equalizerWave').classList.add('opacity-100');
-      } else {
-        document.getElementById('playIcon').classList.remove('hidden');
-        document.getElementById('pauseIcon').classList.add('hidden');
-        document.getElementById('equalizerWave').classList.add('opacity-40');
-        document.getElementById('equalizerWave').classList.remove('opacity-100');
-      }
-    }
-
-    function prevTrack() {
-      playTrackPreview('From the Pinnacle to the Pit', 'Ghost', 'Meliora', IMG['Meliora_poster.jpg']);
-    }
-
-    function nextTrack() {
-      playTrackPreview('Geneva', 'Russian Circles', 'Geneva', IMG['Geneva_poster.jpg']);
     }
 
     // FILTERS & TABS
@@ -1471,7 +1275,6 @@ const IMG = {"Blade_poster.jpg": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASAB
       if (e.key === 'Escape') {
         closeModal('movieModal');
         closeModal('albumModal');
-        closeModal('serverModal');
         closeModal('wrappedModal');
       }
       if (!document.getElementById('wrappedModal').classList.contains('hidden')) {
@@ -1480,15 +1283,13 @@ const IMG = {"Blade_poster.jpg": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASAB
       }
     });
 
-    ['movieModal', 'albumModal', 'serverModal', 'wrappedModal'].forEach(id => {
+    ['movieModal', 'albumModal', 'wrappedModal'].forEach(id => {
       document.getElementById(id).addEventListener('click', (e) => {
         if (e.target.id === id) closeModal(id);
       });
     });
 
     // INITIAL RENDER
-    document.getElementById('playerCover').src = IMG["Meliora_poster.jpg"];
-
     renderMovies();
     renderMusic();
     renderHistory();
