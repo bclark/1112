@@ -268,6 +268,16 @@ valid users            = @admin bclark
 write list             = @admin bclark
 create mask            = 0775
 directory mask         = 0775
+
+[piper]
+path                   = /volume1/docker/wyoming/piper
+comment                = Wyoming Piper Voice Models
+browseable             = yes
+writeable              = yes
+valid users            = @admin bclark
+write list             = @admin bclark
+create mask            = 0775
+directory mask         = 0775
 ```
 
 Included in `/etc/samba/smb.conf`:
@@ -279,7 +289,9 @@ include = /etc/samba/smbcustom.conf
 | Drive Letter | Network Path | Content |
 | :---: | :--- | :--- |
 | **`P:`** | `\\technodrome.local\personal` | Bryan's personal home directory (`/home/bclark`) |
+| **`W:`** | `\\technodrome.local\piper` | Wyoming Piper Voice Models (`/volume1/docker/wyoming/piper`) |
 | **`V:`** | `\\technodrome.local\movies` | Movies library on `/volume2/media/movies` |
 | **`M:`** | `\\technodrome.local\music` | Music library on `/volume2/media/music` |
 | **`T:`** | `\\technodrome.local\tv` | TV Shows & Anime on `/volume2/media/tv` |
+
 
