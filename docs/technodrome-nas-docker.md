@@ -258,6 +258,16 @@ valid users            = @admin bclark
 write list             = @admin bclark
 create mask            = 0775
 directory mask         = 0775
+
+[personal]
+path                   = /home/bclark
+comment                = personal home directory
+browseable             = yes
+writeable              = yes
+valid users            = @admin bclark
+write list             = @admin bclark
+create mask            = 0775
+directory mask         = 0775
 ```
 
 Included in `/etc/samba/smb.conf`:
@@ -268,7 +278,8 @@ include = /etc/samba/smbcustom.conf
 ### Windows Workstation (`Karai`) Drive Mappings:
 | Drive Letter | Network Path | Content |
 | :---: | :--- | :--- |
+| **`P:`** | `\\technodrome.local\personal` | Bryan's personal home directory (`/home/bclark`) |
 | **`V:`** | `\\technodrome.local\movies` | Movies library on `/volume2/media/movies` |
 | **`M:`** | `\\technodrome.local\music` | Music library on `/volume2/media/music` |
 | **`T:`** | `\\technodrome.local\tv` | TV Shows & Anime on `/volume2/media/tv` |
-| **`P:`** | `\\technodrome.local\docker\wyoming\piper` | Wyoming Piper voice profiles |
+
