@@ -210,3 +210,53 @@ docker stats --no-stream
 # View real-time logs
 docker logs -f --tail 100 <container-name>
 ```
+
+---
+
+## 5. Samba Network Sharing & Client Mappings
+
+High-capacity media on `/volume2/media/` is exposed across the local network via custom Samba share definitions in `/etc/samba/smbcustom.conf`:
+
+```ini
+[media]
+path                   = /volume2/media
+comment                = media share directory
+browseable             = yes
+writeable              = yes
+valid users            = @admin bclark
+write list             = @admin bclark
+create mask            = 0775
+directory mask         = 0775
+
+[movies]
+path                   = /volume2/media/movies
+comment                = movies share directory
+browseable             = yes
+writeable              = yes
+valid users            = @admin bclark
+write list             = @admin bclark
+create mask            = 0775
+directory mask         = 0775
+
+[music]
+path                   = /volume2/media/music
+comment                = music share directory
+browseable             = yes
+writeable              = yes
+valid users            = @admin bclark
+write list             = @admin bclark
+create mask            = 0775
+directory mask         = 0775
+```
+
+Included in `/etc/samba/smb.conf`:
+```ini
+include = /etc/samba/smbcustom.conf
+```
+
+### Windows Workstation (`Karai`) Drive Mappings:
+| Drive Letter | Network Path | Content |
+| :---: | :--- | :--- |
+| **`V:`** | `\\technodrome.local\movies` | Movies library on `/volume2/media/movies` |
+| **`M:`** | `\\technodrome.local\music` | Music library on `/volume2/media/music` |
+| **`P:`** | `\\technodrome.local\docker\wyoming\piper` | Wyoming Piper voice profiles |
