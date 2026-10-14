@@ -166,6 +166,7 @@ services:
       - /volume1/docker/plex/transcode:/transcode
       - /volume2/media/movies:/movies
       - /volume2/media/music:/music
+      - /volume2/media/tv:/tv
     restart: unless-stopped
 ```
 
@@ -247,6 +248,16 @@ valid users            = @admin bclark
 write list             = @admin bclark
 create mask            = 0775
 directory mask         = 0775
+
+[tv]
+path                   = /volume2/media/tv
+comment                = tv shows share directory
+browseable             = yes
+writeable              = yes
+valid users            = @admin bclark
+write list             = @admin bclark
+create mask            = 0775
+directory mask         = 0775
 ```
 
 Included in `/etc/samba/smb.conf`:
@@ -259,4 +270,5 @@ include = /etc/samba/smbcustom.conf
 | :---: | :--- | :--- |
 | **`V:`** | `\\technodrome.local\movies` | Movies library on `/volume2/media/movies` |
 | **`M:`** | `\\technodrome.local\music` | Music library on `/volume2/media/music` |
+| **`T:`** | `\\technodrome.local\tv` | TV Shows & Anime on `/volume2/media/tv` |
 | **`P:`** | `\\technodrome.local\docker\wyoming\piper` | Wyoming Piper voice profiles |
