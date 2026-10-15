@@ -1,44 +1,49 @@
 {
   "year": 2026,
   "status": "PREVIEW_MODE",
-  "synced_at": "2026-10-13T13:50:49.390421",
+  "synced_at": "2026-10-15T13:47:43.212821",
   "freeze_date": "2026-12-20",
-  "user": "bclark108",
-  "total_minutes_streamed": 1840,
-  "top_artist": "Ghost",
-  "top_album": "Meliora",
+  "user": "Technodrome Vault",
+  "total_minutes_streamed": 240,
+  "top_artist": "FloFilz",
+  "top_artist_plays": 16,
+  "runner_ups": [
+    "Wire",
+    "Ghost",
+    "Mushroom Grandpa"
+  ],
   "top_tracks": [
     {
       "rank": 1,
-      "title": "Cirice",
+      "title": "Mummy Dust",
       "artist": "Ghost",
-      "plays": 11
+      "plays": 2
     },
     {
       "rank": 2,
-      "title": "Geneva",
-      "artist": "Russian Circles",
-      "plays": 10
+      "title": "Deus in Absentia",
+      "artist": "Ghost",
+      "plays": 2
     },
     {
       "rank": 3,
-      "title": "Funky Shit",
-      "artist": "The Prodigy",
-      "plays": 8
+      "title": "Old Bright Days",
+      "artist": "Mushroom Grandpa",
+      "plays": 2
     },
     {
       "rank": 4,
-      "title": "From the Pinnacle to the Pit",
-      "artist": "Ghost",
-      "plays": 6
+      "title": "Gentle Memories",
+      "artist": "Mushroom Grandpa",
+      "plays": 2
     },
     {
       "rank": 5,
-      "title": "Diesel Power",
-      "artist": "The Prodigy",
-      "plays": 5
+      "title": "Dawn Grove",
+      "artist": "Mushroom Grandpa",
+      "plays": 2
     }
   ],
   "flac_percentage": 93,
-  "sonic_persona": "The Occult Alchemist"
+  "sonic_persona": "The Sonic Alchemist"
 }
