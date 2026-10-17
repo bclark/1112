@@ -113,6 +113,8 @@ Remote access to Home Assistant, Plex, and Pi-hole is established entirely throu
 | Public Hostname | Service Protocol | Internal Destination | Notes |
 | :--- | :--- | :--- | :--- |
 | `ha.technodrome.online` | HTTP | `http://127.0.0.1:8123` | Home Assistant Core (Requires trusted reverse proxy configuration) |
+| `photos.technodrome.online` | HTTP | `http://127.0.0.1:2283` | Immich Photo & Video Server |
+| `grafana.technodrome.online` | HTTP | `http://127.0.0.1:3001` | Grafana Observability Dashboards (Password Protected) |
 | `plex.technodrome.online` | HTTP | `http://127.0.0.1:32400` | Plex Media Server |
 | `pihole.technodrome.online` | HTTP | `http://127.0.0.1:80` | Pi-hole Admin Web Interface |
 | `*` | HTTP status | `404` | Catch-all reject rule |

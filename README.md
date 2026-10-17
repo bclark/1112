@@ -28,6 +28,16 @@ flowchart TD
         DockerNet --> EufyWS["eufy-security-ws (:3000)"]
         DockerNet --> VoicePipe["Piper / Whisper / openWakeWord"]
         DockerNet --> Matter["Matter Server (:5580)"]
+        DockerNet --> Grafana["Grafana (:3001) & Prometheus (:9090)"]
+        DockerNet --> Immich["Immich Photo Server (:2283)"]
+    end
+
+    subgraph AIHost ["Karai AI Workstation (192.168.68.86 - RTX 5070)"]
+        LlamaCpp["llama.cpp Server (:9931)\nGemma 4 E4B Q8_0 (Captain Picard)"]
+        KaraiExp["Karai GPU & LLM Exporter (:9835)"]
+        HA <-->|Assist Voice Pipeline| LlamaCpp
+        Grafana -.->|5s Prometheus Scrape| KaraiExp
+        Grafana -.->|5s Prometheus Scrape| LlamaCpp
     end
 
     subgraph SmartHome ["Connected Smart Home Ecosystem"]
@@ -43,17 +53,23 @@ flowchart TD
     CFTunnel -.->|ha.technodrome.online| HA
     CFTunnel -.->|plex.technodrome.online| Plex
     CFTunnel -.->|pihole.technodrome.online| PiHole
+    CFTunnel -.->|photos.technodrome.online| Immich
+    CFTunnel -.->|grafana.technodrome.online| Grafana
 ```
 
 ---
 
-## 🌐 External & Remote Access Endpoints
+## 🌐 External & Local Access Endpoints
 
 All external traffic routes securely via Cloudflare Tunnels with TLS termination. No public router ports are forwarded.
 
-| Service | Public URL | Internal Target | Authentication / Access |
+| Service | URL | Internal Target | Authentication / Access |
 | :--- | :--- | :--- | :--- |
 | **Home Assistant** | [`https://ha.technodrome.online`](https://ha.technodrome.online) | `http://127.0.0.1:8123` | HA Auth (Trusted Reverse Proxy) |
+| **Immich Photos** | [`https://photos.technodrome.online`](https://photos.technodrome.online) / [`http://immich.lan:2283`](http://immich.lan:2283) | `http://127.0.0.1:2283` | Immich Account / Mobile App |
+| **Grafana Dashboards** | [`https://grafana.technodrome.online`](https://grafana.technodrome.online) / [`http://grafana.lan:3001`](http://grafana.lan:3001) | `http://127.0.0.1:3001` | Grafana Login Required (`admin`) |
+| **Prometheus Telemetry** | [`http://technodrome.lan:9090`](http://technodrome.lan:9090) | `http://192.168.68.79:9090` | Local LAN Access |
+| **Karai LLM Server** | `http://192.168.68.86:9931/v1` | `Karai:9931` (`:9835/metrics`) | Bearer API Key (`llama.cpp` + RTX 5070) |
 | **Plex Media Server** | [`https://plex.technodrome.online/web`](https://plex.technodrome.online/web) | `http://127.0.0.1:32400` | Plex OAuth / Plex Pass |
 | **Pi-hole Admin** | [`https://pihole.technodrome.online/admin`](https://pihole.technodrome.online/admin) | `http://127.0.0.1:80` | Pi-hole Admin Password |
 

@@ -23,6 +23,7 @@ This document maintains the master device inventory, static IP assignments, hard
 | **Krang (MacBook Pro)** | `192.168.68.77` | Wi-Fi 7 (6 GHz) | `Krang-MacBook-Pro.lan` | Bryan's Primary Workstation (Wi-Fi) |
 | **Krang Wired** | `192.168.68.88` | 2.5 GbE Wired | `Krang-Wired.lan` | Direct Ethernet connection |
 | **Krang CalDigit TS4** | `192.168.68.85` | 2.5 GbE Dock | `Krang-Dock.lan` | Thunderbolt 4 Docking Station |
+| **Karai (Windows AI Host)** | `192.168.68.86` | Wi-Fi (5 GHz) | `karai.lan` | NVIDIA RTX 5070 (12 GB) running `llama.cpp` Gemma 4 E4B (`:9931`) & Prometheus Exporter (`:9835`) |
 | **Bryan's Watch** | `192.168.68.80` | Wi-Fi | `Bryans-Watch.lan` | Samsung Galaxy Watch |
 | **Bryan's Phone** | Dynamic DHCP | Wi-Fi 7 | `Bryans-Fold.lan` | Samsung Galaxy Z Fold |
 | **Amanda's iPhone** | Dynamic DHCP | Wi-Fi | `Amandas-iPhone.lan` | Mobile device tracker |

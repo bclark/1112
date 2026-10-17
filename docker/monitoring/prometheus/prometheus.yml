@@ -1,0 +1,39 @@
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+scrape_configs:
+  # 1. Karai Unified Exporter (RTX 5070 GPU + Host CPU/RAM + Gemma 4 E4B Slots, Model State & Native llamacpp:* Metrics)
+  - job_name: "karai_ai_and_gpu"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ["192.168.68.86:9835"]
+        labels:
+          host: "karai"
+          role: "llm_workstation"
+          model: "gemma-4-E4B-it-Q8_0"
+
+  # 3. Technodrome Host Hardware & Storage Telemetry (Node Exporter)
+  - job_name: "technodrome_host"
+    scrape_interval: 10s
+    static_configs:
+      - targets: ["192.168.68.79:9100"]
+        labels:
+          host: "technodrome"
+          role: "nas_server"
+
+  # 4. Home Assistant Smart Home Telemetry
+  - job_name: "homeassistant"
+    scrape_interval: 15s
+    metrics_path: "/api/prometheus"
+    static_configs:
+      - targets: ["192.168.68.79:8123"]
+        labels:
+          host: "technodrome"
+          service: "homeassistant"
+
+  # 5. Prometheus Self-Monitoring
+  - job_name: "prometheus"
+    scrape_interval: 15s
+    static_configs:
+      - targets: ["127.0.0.1:9090"]

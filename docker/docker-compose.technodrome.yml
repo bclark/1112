@@ -121,3 +121,133 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+
+  # ----------------------------------------------------------------------------
+  # Prometheus Time-Series Telemetry (Karai LLM/GPU + Technodrome + HA)
+  # ----------------------------------------------------------------------------
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    user: "0:0"
+    ports:
+      - "9090:9090"
+    volumes:
+      - /volume1/docker/monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - /volume1/docker/monitoring/prometheus/data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=30d"
+      - "--web.enable-lifecycle"
+
+  # ----------------------------------------------------------------------------
+  # Grafana Analytics & Observability Dashboard
+  # ----------------------------------------------------------------------------
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    user: "0:0"
+    ports:
+      - "3001:3000"
+    environment:
+      - TZ=America/New_York
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-technodrome}
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_AUTH_ANONYMOUS_ENABLED=false
+      - GF_AUTH_PROXY_ENABLED=true
+      - GF_AUTH_PROXY_HEADER_NAME=X-WEBAUTH-USER
+      - GF_AUTH_PROXY_HEADER_PROPERTY=username
+      - GF_AUTH_PROXY_AUTO_SIGN_UP=false
+      - GF_AUTH_PROXY_WHITELIST=127.0.0.1, ::1
+      - GF_SECURITY_ALLOW_EMBEDDING=true
+      - GF_SECURITY_COOKIE_SAMESITE=lax
+      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/etc/grafana/provisioning/dashboards/karai-llm.json
+    volumes:
+      - /volume1/docker/monitoring/grafana/data:/var/lib/grafana
+      - /volume1/docker/monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+
+  # ----------------------------------------------------------------------------
+  # Grafana Physical HDMI Kiosk Rotator (X11 :0)
+  # ----------------------------------------------------------------------------
+  grafana-kiosk:
+    build: ./monitoring/kiosk
+    container_name: grafana-kiosk
+    restart: unless-stopped
+    depends_on:
+      - grafana
+    network_mode: "service:grafana"
+    shm_size: "1gb"
+    environment:
+      - TZ=America/New_York
+      - DISPLAY=:0
+    devices:
+      - /dev/dri:/dev/dri
+    volumes:
+      - /tmp:/host-tmp:ro
+
+  # ----------------------------------------------------------------------------
+  # Technodrome Host Hardware Exporter
+  # ----------------------------------------------------------------------------
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    network_mode: host
+    pid: host
+    volumes:
+      - /:/host:ro,rslave
+    command:
+      - "--path.rootfs=/host"
+      - "--web.listen-address=0.0.0.0:9100"
+
+  # ----------------------------------------------------------------------------
+  # Immich Self-Hosted Photo & Video Backup Suite (:2283)
+  # ----------------------------------------------------------------------------
+  immich-server:
+    container_name: immich_server
+    image: ghcr.io/immich-app/immich-server:release
+    devices:
+      - /dev/dri:/dev/dri
+    volumes:
+      - /volume2/media/photos:/data
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - /volume1/docker/immich/.env
+    ports:
+      - "2283:2283"
+    depends_on:
+      - immich-redis
+      - immich-postgres
+    restart: unless-stopped
+
+  immich-machine-learning:
+    container_name: immich_machine_learning
+    image: ghcr.io/immich-app/immich-machine-learning:release
+    volumes:
+      - /volume1/docker/immich/model-cache:/cache
+    env_file:
+      - /volume1/docker/immich/.env
+    restart: unless-stopped
+
+  immich-redis:
+    container_name: immich_redis
+    image: docker.io/valkey/valkey:9@sha256:c123e3715db63d06d4ad6964884037aa0d5d4d703939b9929954112889708e1d
+    restart: unless-stopped
+
+  immich-postgres:
+    container_name: immich_postgres
+    image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23
+    environment:
+      POSTGRES_PASSWORD: ${IMMICH_DB_PASSWORD:-TechnodromeImmich2026}
+      POSTGRES_USER: postgres
+      POSTGRES_DB: immich
+      POSTGRES_INITDB_ARGS: "--data-checksums"
+    volumes:
+      - /volume1/docker/immich/postgres:/var/lib/postgresql/data
+    shm_size: 128mb
+    restart: unless-stopped
+
+

@@ -14,6 +14,7 @@ This document details the server architecture, filesystem directory structure, a
 | **Networking** | Dual 2.5 GbE Intel Ethernet ports (eth0, eth1) |
 | **Storage Architecture** | Dual storage pools: NVMe pool on `/volume1` (system & Docker configs); 7.3 TB HDD RAID 1 pool on `/volume2` (Bulk media: movies, music, TV) |
 | **Hardware Transcoding** | Intel UHD Graphics (`/dev/dri` passed to Plex) |
+| **Physical HDMI Kiosk** | Connected HDMI display (`HDMI-A-1` on `DISPLAY=:0`) running `grafana-kiosk` (auto-rotates Karai AI & Technodrome NAS dashboards every 30s) |
 | **SSH Management** | `ssh bclark@192.168.68.79` (Default port 22; toggled in UGOS Control Panel) |
 
 ---
@@ -50,14 +51,25 @@ Docker application configurations and databases remain on the ultra-fast NVMe st
     │   ├── piper/
     │   ├── whisper/
     │   └── openwakeword/
+    ├── immich/
+    │   ├── postgres/
+    │   ├── model-cache/
+    │   ├── .env
+    │   └── docker-compose.yml
+    ├── monitoring/
+    │   ├── grafana/
+    │   ├── kiosk/
+    │   ├── prometheus/
+    │   └── docker-compose.yml
     └── matter-server/
         └── data/
 
-/volume2/ (7.3 TB HDD RAID 1 - Media Libraries)
+/volume2/ (7.3 TB HDD RAID 1 - Media & Photo Libraries)
 └── media/
     ├── movies/
     ├── music/
-    └── tv/
+    ├── tv/
+    └── photos/ (Immich Photo & Video Vault)
 ```
 
 ---
